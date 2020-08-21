@@ -5,7 +5,7 @@
 
 describe("Testing form input", () => {
     beforeEach(function() {
-        cy.visit("http://localhost:3002/pizza")
+        cy.visit("http://localhost:3005/pizza")
     });
 
     it("Input Name into the Name input", () => {
@@ -18,6 +18,11 @@ describe("Testing form input", () => {
           .should("be.checked")
 
         cy.get("form").submit()
+
+        // Stretch
+        cy.get('[href="/"]')
+        .click()
+        cy.url().should('include', 'http://localhost:3005/')
     });
 
 })
