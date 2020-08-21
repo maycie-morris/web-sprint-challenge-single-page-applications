@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import * as yup from 'yup';
 import axios from 'axios';
-import { Form, FormCheck } from "react-bootstrap";
+import Switch from 'react-input-switch';
 
 
 const formSchema = yup.object().shape({
@@ -27,6 +27,8 @@ const formSchema = yup.object().shape({
         .string()
         .min(2, "Name must include 2 letters")
         .required("Name is required"),
+    gluten: yup
+        .boolean(),
     instructions: yup
         .string()
 });
@@ -46,7 +48,8 @@ function Pizza() {
         onion: false,
         olives: false,
         name: "",
-        instructions: "",
+        gluten: false,
+        instructions: ""
     })
 
 
@@ -69,6 +72,7 @@ function Pizza() {
         onion: "",
         olives: "",
         name: "",
+        gluten: "",
         instructions: "",
     });
 
@@ -112,6 +116,10 @@ function Pizza() {
             })
             .catch(err => console.log(err));
     };
+
+    // Toggle
+
+    const [value, setValue] = useState('no');
 
     return (
         <div>
@@ -257,6 +265,21 @@ function Pizza() {
                         ) : null}
                     </label>
                 </div>
+                <div className="gluten-crust">
+                <label htmlFor="glutenCrust">
+                <Switch
+                    on="yes"
+                    off="no"
+                    value={value}
+                    onChange={setValue}
+                    checked={formState.gluten}
+                />
+                {errorState.gluten.length > 0 ? (
+                        <p className="error">{errorState.gluten}</p>
+                        ) : null}
+                    Gluten Free Crust (+ $1.00)
+                </label>
+                </div>
                 <div className="special-instructions">
                     <label htmlFor="instructions">
                         Special Instructions:
@@ -287,15 +310,8 @@ function Pizza() {
                 ) : null}
         </label>
 
-            {/* <Form>
-                <Form.Check 
-                    type="switch"
-                    id="custom-switch"
-                    label="Check this switch"
-                />
-            </Form> */}
 
-        </div>
+         </div>
                 <div className="submit-button">
                     <button disabled={buttonDisabled}>Submit</button>
                 </div>
