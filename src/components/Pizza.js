@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import * as yup from 'yup';
 import axios from 'axios';
+import { Form, FormCheck } from "react-bootstrap";
 
 
 const formSchema = yup.object().shape({
@@ -285,6 +286,15 @@ function Pizza() {
                     <p className="error">{errorState.name}</p>
                 ) : null}
         </label>
+
+            {/* <Form>
+                <Form.Check 
+                    type="switch"
+                    id="custom-switch"
+                    label="Check this switch"
+                />
+            </Form> */}
+
         </div>
                 <div className="submit-button">
                     <button disabled={buttonDisabled}>Submit</button>
