@@ -5,3 +5,17 @@
   background-repeat: no-repeat;
   background-size: cover;
 }
+
+body {
+  color: white;
+  background: black;
+}
+
+.home-page {
+  color: white;
+  background: black;
+}
+
+/* h1 {
+  color: white;
+} */

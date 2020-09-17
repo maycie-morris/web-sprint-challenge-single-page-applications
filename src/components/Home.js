@@ -6,7 +6,7 @@ function Home(props) {
     const history = useHistory();
 
     return (
-        <div>
+        <div className="home">
             <button
               className='shop-button'
               onClick={() => history.push('/pizza')}

@@ -1,5 +1,6 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { Switch, Route, Link } from 'react-router-dom';
+import './App.css'
 
 import Home from './components/Home';
 import Pizza from './components/Pizza'
@@ -8,7 +9,7 @@ import Pizza from './components/Pizza'
 
 const App = () => {
   return (
-    <div>
+    <div className="home-page">
       <h1>Lambda Eats</h1>
       <div className='nav-links'>
         <Link to='/'>Home</Link>
