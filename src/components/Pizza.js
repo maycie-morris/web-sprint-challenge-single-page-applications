@@ -1,7 +1,132 @@
 import React, { useState, useEffect } from 'react';
 import * as yup from 'yup';
 import axios from 'axios';
-import Switch from 'react-input-switch';
+// import Switch from 'react-input-switch';
+import clsx from 'clsx';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { grey } from '@material-ui/core/colors';
+import FormControl from '@material-ui/core/FormControl';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import InputBase from '@material-ui/core/InputBase';
+import Select from '@material-ui/core/Select';
+import Checkbox from '@material-ui/core/Checkbox';
+import Switch from '@material-ui/core/Switch';
+import TextField from '@material-ui/core/TextField';
+
+const BootstrapInput = withStyles((theme) => ({
+    root: {
+      'label + &': {
+        marginTop: theme.spacing(3),
+      },
+        '&:hover': {
+          backgroundColor: 'transparent',
+        },
+        '& .MuiTextField-root': {
+            margin: theme.spacing(1),
+            width: '10rem',
+          },
+    },
+    input: {
+      borderRadius: 4,
+      position: 'relative',
+      backgroundColor: theme.palette.background.paper,
+      border: '1px solid #ced4da',
+      fontSize: 16,
+      padding: '10px 26px 10px 12px',
+      width: '5rem',
+      transition: theme.transitions.create(['border-color', 'box-shadow']),
+      // Use the system font instead of the default Roboto font.
+      fontFamily: [
+        '-apple-system',
+        'BlinkMacSystemFont',
+        '"Segoe UI"',
+        'Roboto',
+        '"Helvetica Neue"',
+        'Arial',
+        'sans-serif',
+        '"Apple Color Emoji"',
+        '"Segoe UI Emoji"',
+        '"Segoe UI Symbol"',
+      ].join(','),
+      '&:focus': {
+        borderRadius: 4,
+        borderColor: '#80bdff',
+        boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
+      },
+    },
+    icon: {
+        borderRadius: 3,
+        width: 16,
+        height: 16,
+        boxShadow: 'inset 0 0 0 1px rgba(16,22,26,.2), inset 0 -1px 0 rgba(16,22,26,.1)',
+        backgroundColor: 'rgba(19,124,189,.6)',
+        backgroundImage: 'linear-gradient(180deg,hsla(0,0%,100%,.8),hsla(0,0%,100%,0))',
+        '$root.Mui-focusVisible &': {
+          outline: '2px auto rgba(19,124,189,.6)',
+          outlineOffset: 2,
+        },
+        'input:hover ~ &': {
+          backgroundColor: '#ebf1f5',
+        },
+        'input:disabled ~ &': {
+          boxShadow: 'none',
+          background: 'rgba(206,217,224,.5)',
+        },
+    },
+    checkedIcon: {
+        backgroundColor: '#137cbd',
+        backgroundImage: 'linear-gradient(180deg,hsla(0,0%,100%,.1),hsla(0,0%,100%,0))',
+        '&:before': {
+          display: 'block',
+          width: 16,
+          height: 16,
+          backgroundImage:
+            "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath" +
+            " fill-rule='evenodd' clip-rule='evenodd' d='M12 5c-.28 0-.53.11-.71.29L7 9.59l-2.29-2.3a1.003 " +
+            "1.003 0 00-1.42 1.42l3 3c.18.18.43.29.71.29s.53-.11.71-.29l5-5A1.003 1.003 0 0012 5z' fill='%23fff'/%3E%3C/svg%3E\")",
+          content: '""',
+        },
+        'input:hover ~ &': {
+          backgroundColor: '#106ba3',
+        },
+      },
+  }))(InputBase);
+
+  const useStyles = makeStyles((theme) => ({
+    margin: {
+      margin: theme.spacing(1),
+    },
+  }));
+
+  function StyledCheckbox(props) {
+    const classes = useStyles();
+  
+    return (
+      <Checkbox
+        className={classes.root}
+        disableRipple
+        color="default"
+        checkedIcon={<span className={clsx(classes.icon, classes.checkedIcon)} />}
+        icon={<span className={classes.icon} />}
+        inputProps={{ 'aria-label': 'decorative checkbox' }}
+        {...props}
+      />
+    );
+  }
+
+  const PurpleSwitch = withStyles({
+  switchBase: {
+    color: grey[300],
+    '&$checked': {
+      color: grey[500],
+    },
+    '&$checked + $track': {
+      backgroundColor: grey[500],
+    },
+  },
+  checked: {},
+  track: {},
+})(Switch);
 
 
 const formSchema = yup.object().shape({
@@ -27,8 +152,6 @@ const formSchema = yup.object().shape({
         .string()
         .min(2, "Name must include 2 letters")
         .required("Name is required"),
-    gluten: yup
-        .boolean(),
     instructions: yup
         .string()
 });
@@ -48,7 +171,7 @@ function Pizza() {
         onion: false,
         olives: false,
         name: "",
-        gluten: false,
+        gluten: true,
         instructions: ""
     })
 
@@ -72,7 +195,6 @@ function Pizza() {
         onion: "",
         olives: "",
         name: "",
-        gluten: "",
         instructions: "",
     });
 
@@ -122,25 +244,28 @@ function Pizza() {
     const [value, setValue] = useState('no');
 
     return (
-        <div>
+        <div className="form">
             <form onSubmit={formSubmit}>
                 <div className="pizza-size">
                     <label htmlFor="size">
                         <h2>Choice of size</h2>
                         <p>Required</p>
-                        <select
-                            value={formState.size}
-                            name="size"
-                            id="size"
-                            onChange={inputChange}
-                        >
-                            <option value="Default">--Select A Size--</option>
-                            <option value="Personal">Personal</option>
-                            <option value="Small">Small</option>
-                            <option value="Medium">Medium</option>
-                            <option value="Large">Large</option>
-                            <option value="Party">Party</option>
-                        </select>
+                        <FormControl variant="outlined">
+                            <Select
+                                value={formState.size}
+                                name="size"
+                                id="size"
+                                onChange={inputChange}
+                                input={<BootstrapInput />}
+                            >
+                                <option value="Default">--Select A Size--</option>
+                                <option value="Personal">Personal</option>
+                                <option value="Small">Small</option>
+                                <option value="Medium">Medium</option>
+                                <option value="Large">Large</option>
+                                <option value="Party">Party</option>
+                            </Select>
+                        </FormControl>
                         {errorState.size.length > 0 ? (
                             <p className="error">{errorState.size}</p>
                         ) : null}
@@ -151,7 +276,7 @@ function Pizza() {
                     <p>Required</p>
                     <label htmlFor="originalRed">
                         Original Red:
-                        <input
+                        <Checkbox
                             type="checkbox"
                             id="originalRed"
                             name="originalRed"
@@ -165,7 +290,7 @@ function Pizza() {
                     <br></br>
                     <label htmlFor="garlicButter">
                         Garlic Butter:
-                        <input
+                        <Checkbox
                             type="checkbox"
                             id="garlicButter"
                             name="garlicButter"
@@ -179,7 +304,7 @@ function Pizza() {
                     <br></br>
                     <label htmlFor="pesto">
                         Pesto:
-                        <input
+                        <Checkbox
                             type="checkbox"
                             id="pesto"
                             name="pesto"
@@ -193,7 +318,7 @@ function Pizza() {
                     <br></br>
                     <label htmlFor="bbq">
                         BBQ:
-                        <input
+                        <Checkbox
                             type="checkbox"
                             id="bbq"
                             name="bbq"
@@ -207,11 +332,11 @@ function Pizza() {
                 </div>
                 <div className="pizza-toppings">
                     <h2>Choice of Toppings:</h2>
-                    <p>Choose up to 10</p>
+                    <p>Choose up to 4</p>
                     
                     <label htmlFor="pepperoni">
                         Pepperoni:
-                        <input
+                        <Checkbox
                             type="checkbox"
                             id="pepperoni"
                             name="pepperoni"
@@ -225,7 +350,7 @@ function Pizza() {
                     <br></br>
                     <label htmlFor="sausage">
                         Sausage:
-                        <input
+                        <Checkbox
                             type="checkbox"
                             id="sausage"
                             name="sausage"
@@ -239,7 +364,7 @@ function Pizza() {
                     <br></br>
                     <label htmlFor="onion">
                         Onion:
-                        <input
+                        <Checkbox
                             type="checkbox"
                             id="onion"
                             name="onion"
@@ -253,7 +378,7 @@ function Pizza() {
                     <br></br>
                     <label htmlFor="olives">
                         Olives:
-                        <input
+                        <Checkbox
                             type="checkbox"
                             id="olives"
                             name="olives"
@@ -265,28 +390,26 @@ function Pizza() {
                         ) : null}
                     </label>
                 </div>
-                <div className="gluten-crust">
+                {/* <div className="gluten-crust">
                 <label htmlFor="glutenCrust">
-                <Switch
-                    on="yes"
-                    off="no"
-                    value={value}
-                    onChange={setValue}
+                    <FormControlLabel
+                        control = {
+                <PurpleSwitch
+                    onChange={inputChange}
                     checked={formState.gluten}
-                />
-                {errorState.gluten.length > 0 ? (
-                        <p className="error">{errorState.gluten}</p>
-                        ) : null}
+                />} />
                     Gluten Free Crust (+ $1.00)
                 </label>
-                </div>
+                </div> */}
                 <div className="special-instructions">
                     <label htmlFor="instructions">
                         Special Instructions:
                         <br></br>
-                        <textarea
+                        <TextField
                             name="instructions"
                             id="instructions"
+                            multiline
+                            rowsMax={4}
                             placeholder="Anything else you would like to add?"
                             value={formState.instructions}
                             onChange={inputChange}
@@ -297,7 +420,7 @@ function Pizza() {
         <label htmlFor="name">
             Who is this pizza for?
             <br></br>
-            <input
+            <TextField
                 type="text"
                 name="name"
                 id="name"

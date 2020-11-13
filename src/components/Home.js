@@ -1,6 +1,8 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 
+import pizzaimg from '../images/pizza.jpeg'
+
 
 function Home(props) {
     const history = useHistory();
@@ -13,6 +15,9 @@ function Home(props) {
             >
               Order Now!
             </button>
+            <div className="imgcontainer">
+              <img className="pizza" src= { pizzaimg } />
+            </div>
         </div>
     );
 };

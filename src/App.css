@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat&family=Great+Vibes&display=swap');
+
 .container {
   background-image: url("https://i.imgur.com/s6nhX7J.jpg");
   height: 50rem;
@@ -8,14 +10,66 @@
 
 body {
   color: white;
-  background: black;
+  background: rgb(82, 24, 24);
 }
 
 .home-page {
   color: white;
-  background: black;
+  background: rgb(82, 24, 24);
 }
 
-/* h1 {
+h1 {
+  font-family: 'Great Vibes', cursive;
+  text-align: center;
+  font-size: 3rem;
+}
+
+.nav-links {
+  display: flex;
+  justify-content: space-around;
+  margin-left: 30%;
+  margin-right: 30%;
+}
+
+.link {
   color: white;
-} */
+  font-family: 'Caveat', cursive;
+  font-size: 1.5rem;
+  border-bottom: 1px solid white;
+  padding: 1%;
+  text-transform: uppercase;
+  display: flex;
+  text-decoration: none;
+}
+
+.link:hover {
+  color: rgb(141, 141, 141);
+  border-bottom: 1px solid rgb(141, 141, 141);;
+}
+
+.shop-button {
+  height: 2rem;
+  width: 7rem;
+  display: flex;
+  margin: 2% auto;
+  align-items: center;
+  justify-content: center;
+}
+
+.shop-button:hover {
+  background: rgb(141, 141, 141);
+}
+
+.pizza {
+  width: 100%;
+  height: 50rem;
+}
+
+.form {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  color: black;
+  margin: 5% 15%;
+  background: rgb(255, 255, 255);
+}

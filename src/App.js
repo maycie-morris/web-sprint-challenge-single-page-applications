@@ -12,8 +12,8 @@ const App = () => {
     <div className="home-page">
       <h1>Lambda Eats</h1>
       <div className='nav-links'>
-        <Link to='/'>Home</Link>
-        <Link to='/pizza'>Order</Link>
+        <Link className="link" to='/'>Home</Link>
+        <Link className="link" to='/pizza'>Order</Link>
       </div>
       <Switch>
         <Route exact path='/'>
